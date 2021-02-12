@@ -3,9 +3,8 @@ import pygame
 
 def on_click():
     mouse_x, mouse_y = pygame.mouse.get_pos()
-    mousepos_to_grid(mouse_x,mouse_y,player)
+    mousepos_to_grid(mouse_x,mouse_y)
     display_score()
-    set_player()
     display_player_turn()
 
 def set_player():
@@ -15,36 +14,35 @@ def set_player():
     elif(player == 2):
         player = 1
 
-def mousepos_to_grid(mouse_x,mouse_y,player):
+def mousepos_to_grid(mouse_x,mouse_y):
     if(mouse_x < 100 and mouse_y < 100):
-        grid[0][0] = player
-        update_grid(0, 0, player)
+        assign_grid_value(0,0)
     if(mouse_x < 100 and mouse_y > 100 and mouse_y < 200):
-        grid[0][1] = player
-        update_grid(0, 1, player)
+        assign_grid_value(0,1)
     if(mouse_x < 100 and mouse_y > 200 and mouse_y < 300):
-        grid[0][2] = player
-        update_grid(0, 2, player)
+        assign_grid_value(0,2)
     if(mouse_x > 100 and mouse_x < 200 and mouse_y < 100):
-        grid[1][0] = player
-        update_grid(1, 0, player)
+        assign_grid_value(1,0)
     if(mouse_x > 100 and mouse_x < 200 and mouse_y > 100 and  mouse_y < 200):
-        grid[1][1] = player
-        update_grid(1, 1, player)
+        assign_grid_value(1,1)
     if(mouse_x > 100 and mouse_x < 200 and  mouse_y > 200 and mouse_y < 300):
-        grid[1][2] = player
-        update_grid(1, 2, player)
+        assign_grid_value(1,2)
     if(mouse_x > 200 and mouse_x < 300 and mouse_y < 100):
-        grid[2][0] = player
-        update_grid(2, 0, player)
+        assign_grid_value(2,0)
     if(mouse_x > 200 and mouse_x < 300 and mouse_y > 100 and mouse_y < 200):
-        grid[2][1] = player
-        update_grid(2, 1, player)
+        assign_grid_value(2,1)
     if(mouse_x > 200 and mouse_x < 300 and mouse_y > 200 and mouse_y < 300):
-        grid[2][2] = player
-        update_grid(2, 2, player)
+        assign_grid_value(2,2)
 
-def update_grid(x_pos,y_pos,player):
+def assign_grid_value(x,y):
+    if(grid[x][y] > 0):
+        return
+    else:
+        grid[x][y] = player
+        update_grid_graphics(x,y)
+        set_player()
+
+def update_grid_graphics(x_pos,y_pos):
     if(player == 1): 
         draw_x(x_pos * cell_size,y_pos * cell_size)
     elif(player == 2):
