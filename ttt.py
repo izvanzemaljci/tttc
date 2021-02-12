@@ -53,8 +53,8 @@ def get_mouse_position():
     return mouse_x, mouse_y
 
 def draw_background_grid():
-    x_color = (167,209,61)
-    o_color = (61,209, 167)
+    x_color = (0,0,0)
+    o_color = (15,56,15)
     for row in range(cell_number):
             if row % 2 == 0:
                 for col in range(cell_number):
@@ -102,8 +102,8 @@ def is_game_over():
         return True
 
 def display_player_turn():
-    score_surface = game_font.render(("Player " + str(player) + " turn"),True,(255,255,255),True)
-    score_rect = score_surface.get_rect(center=(70,310))
+    score_surface = game_font.render((chr(60) + "player " + str(player) + " turn" + chr(60)),True,(155,188,15),True)
+    score_rect = score_surface.get_rect(center=(150,305))
     screen.blit(score_surface,score_rect)
 
 def display_score():
@@ -115,7 +115,7 @@ cell_size = 100
 cell_number = 3
 screen = pygame.display.set_mode((cell_size * cell_number,cell_size * cell_number + 20))
 clock = pygame.time.Clock()
-game_font = pygame.font.Font('VCR_OSD_MONO_1.001.ttf', 15)
+game_font = pygame.font.Font('EarlyGameBoy.ttf', 15)
 
 player = 1 #1 for x, 2 for o 
 grid = [[0]*cell_number for _ in range(cell_number)]
@@ -130,6 +130,6 @@ while True:
             sys.exit()
         if event.type == pygame.MOUSEBUTTONUP:
             on_click()
-      
+    
     pygame.display.update()
     clock.tick(60)
