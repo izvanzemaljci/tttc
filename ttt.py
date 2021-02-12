@@ -4,8 +4,9 @@ import pygame
 def on_click():
     mouse_x, mouse_y = pygame.mouse.get_pos()
     mousepos_to_grid(mouse_x,mouse_y,player)
-    score()
+    display_score()
     set_player()
+    display_player_turn()
 
 def set_player():
     global player
@@ -102,20 +103,27 @@ def is_game_over():
     if(grid[0][2] == grid[1][1] == grid[2][0] == player):
         return True
 
-def score():
+def display_player_turn():
+    score_surface = game_font.render(("Player " + str(player) + " turn"),True,(255,255,255),True)
+    score_rect = score_surface.get_rect(center=(70,310))
+    screen.blit(score_surface,score_rect)
+
+def display_score():
     if is_game_over():
         print("Player " + str(player) + " won")
 
 pygame.init()
 cell_size = 100
 cell_number = 3
-screen = pygame.display.set_mode((cell_size * cell_number,cell_size * cell_number))
+screen = pygame.display.set_mode((cell_size * cell_number,cell_size * cell_number + 20))
 clock = pygame.time.Clock()
+game_font = pygame.font.Font('VCR_OSD_MONO_1.001.ttf', 15)
 
-#game variables
-player = 1 #ako igra iduci setamo na jedan 1 za x 2 za o
+player = 1 #1 for x, 2 for o 
 grid = [[0]*cell_number for _ in range(cell_number)]
+
 draw_background_grid()
+display_player_turn()
 
 while True:
     for event in pygame.event.get():
