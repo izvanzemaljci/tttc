@@ -5,7 +5,7 @@ def on_click():
     mouse_x, mouse_y = pygame.mouse.get_pos()
     mousepos_to_grid(mouse_x,mouse_y)
     display_score()
-    display_player_turn()
+    set_player()
 
 def set_player():
     global player
@@ -40,7 +40,6 @@ def assign_grid_value(x,y):
     else:
         grid[x][y] = player
         update_grid_graphics(x,y)
-        set_player()
 
 def update_grid_graphics(x_pos,y_pos):
     if(player == 1): 
@@ -85,21 +84,25 @@ def draw_o(x_pos,y_pos):
 
 def is_game_over():
     if(grid[0][0] == grid[0][1] == grid[0][2] == player):
-        return True
+        return 1
     if(grid[1][0] == grid[1][1] == grid[1][2] == player):
-        return True
+        return 1
     if(grid[2][0] == grid[2][1] == grid[2][2] == player):
-        return True
+        return 1
     if(grid[0][0] == grid[1][0] == grid[2][0] == player):
-        return True
+        return 1
     if(grid[0][1] == grid[1][1] == grid[2][1] == player):
-        return True
+        return 1
     if(grid[0][2] == grid[1][2] == grid[2][2] == player):
-        return True
+        return 1
     if(grid[0][0] == grid[1][1] == grid[2][2] == player):
-        return True
+        return 1
     if(grid[0][2] == grid[1][1] == grid[2][0] == player):
-        return True
+        return 1
+    
+    if all(all(row) for row in grid):
+        return 2
+
 
 def display_player_turn():
     score_surface = game_font.render((chr(60) + "player " + str(player) + " turn" + chr(60)),True,(155,188,15),True)
@@ -107,8 +110,10 @@ def display_player_turn():
     screen.blit(score_surface,score_rect)
 
 def display_score():
-    if is_game_over():
+    if is_game_over() == 1:
         print("Player " + str(player) + " won")
+    elif is_game_over() == 2:
+        print("Tie!")
 
 pygame.init()
 cell_size = 100
@@ -121,7 +126,6 @@ player = 1 #1 for x, 2 for o
 grid = [[0]*cell_number for _ in range(cell_number)]
 
 draw_background_grid()
-display_player_turn()
 
 while True:
     for event in pygame.event.get():
@@ -131,5 +135,6 @@ while True:
         if event.type == pygame.MOUSEBUTTONUP:
             on_click()
     
+    display_player_turn()
     pygame.display.update()
     clock.tick(60)
